@@ -1,5 +1,8 @@
 package game;
 
+import game.piece.Pawn;
+import game.piece.Piece;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +16,11 @@ import static config.Config.*;
 
 public class BoardGenerator {
 
-    private int[][] board;
-    private Map<Integer, BufferedImage> pieceImages;
+    private Piece[][] board;
+    private Map<String, BufferedImage> pieceImages;
 
     public BoardGenerator(int row, int col) {
-        board = new int[row][col];
+        board = new Piece[row][col];
         initializePieces();
         pieceImages = new HashMap<>();
         loadPieceImages();
@@ -25,16 +28,11 @@ public class BoardGenerator {
 
     public void initializePieces(){
 
-        board = new int[][]{
-                {BLACK_ROOK, BLACK_KNIGHT, BLACK_BISHOP, BLACK_QUEEN, BLACK_KING, BLACK_BISHOP, BLACK_KNIGHT, BLACK_ROOK}, // Row 0: White major pieces
-                {BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN,BLACK_PAWN}, // Row 1: White pawns
-                {0, 0, 0, 0, 0, 0, 0, 0}, // Row 2: Empty
-                {0, 0, 0, 0, 0, 0, 0, 0}, // Row 3: Empty
-                {0, 0, 0, 0, 0, 0, 0, 0}, // Row 4: Empty
-                {0, 0, 0, 0, 0, 0, 0, 0}, // Row 5: Empty
-                {WHITE_PAWN, WHITE_PAWN, WHITE_PAWN, WHITE_PAWN, WHITE_PAWN, WHITE_PAWN, WHITE_PAWN, WHITE_PAWN}, // Row 6: Black pawns
-                {WHITE_ROOK, WHITE_KNIGHT, WHITE_BISHOP, WHITE_QUEEN, WHITE_KING, WHITE_BISHOP, WHITE_KNIGHT, WHITE_ROOK}  // Row 7: Black major pieces
-        };
+        for(int i=0;i<8;i++){
+
+            board[1][i] = new Pawn("BLACK", 1, i);
+        }
+
     }
 
     public void loadPieceImages(){
@@ -43,23 +41,23 @@ public class BoardGenerator {
 
 //            pieceImages.put(WHITE_PAWN, ImageIO.read(new File("/images/pawnwhite.png")));
 //            pieceImages.put(BLACK_PAWN, ImageIO.read(new File("/images/pawnblack.png")));
-            pieceImages.put(BLACK_PAWN, ImageIO.read(getClass().getResource("/images/pawnblack.png")));
-            pieceImages.put(WHITE_PAWN, ImageIO.read(getClass().getResource("/images/pawnwhite.png")));
+            pieceImages.put("BLACK_PAWN", ImageIO.read(getClass().getResource("/images/pawnblack.png")));
+            pieceImages.put("WHITE_PAWN", ImageIO.read(getClass().getResource("/images/pawnwhite.png")));
 
-            pieceImages.put(BLACK_ROOK, ImageIO.read(getClass().getResource("/images/rookblack.png")));
-            pieceImages.put(WHITE_ROOK, ImageIO.read(getClass().getResource("/images/rookwhite.png")));
-
-            pieceImages.put(BLACK_KNIGHT, ImageIO.read(getClass().getResource("/images/knightblack.png")));
-            pieceImages.put(WHITE_KNIGHT, ImageIO.read(getClass().getResource("/images/knightwhite.png")));
-
-            pieceImages.put(BLACK_BISHOP, ImageIO.read(getClass().getResource("/images/bishopblack.png")));
-            pieceImages.put(WHITE_BISHOP, ImageIO.read(getClass().getResource("/images/bishopwhite.png")));
-
-            pieceImages.put(BLACK_QUEEN, ImageIO.read(getClass().getResource("/images/crownblack.png")));
-            pieceImages.put(WHITE_QUEEN, ImageIO.read(getClass().getResource("/images/crownwhite.png")));
-
-            pieceImages.put(BLACK_KING, ImageIO.read(getClass().getResource("/images/kingblack.png")));
-            pieceImages.put(WHITE_KING, ImageIO.read(getClass().getResource("/images/kingwhite.png")));
+//            pieceImages.put(BLACK_ROOK, ImageIO.read(getClass().getResource("/images/rookblack.png")));
+//            pieceImages.put(WHITE_ROOK, ImageIO.read(getClass().getResource("/images/rookwhite.png")));
+//
+//            pieceImages.put(BLACK_KNIGHT, ImageIO.read(getClass().getResource("/images/knightblack.png")));
+//            pieceImages.put(WHITE_KNIGHT, ImageIO.read(getClass().getResource("/images/knightwhite.png")));
+//
+//            pieceImages.put(BLACK_BISHOP, ImageIO.read(getClass().getResource("/images/bishopblack.png")));
+//            pieceImages.put(WHITE_BISHOP, ImageIO.read(getClass().getResource("/images/bishopwhite.png")));
+//
+//            pieceImages.put(BLACK_QUEEN, ImageIO.read(getClass().getResource("/images/crownblack.png")));
+//            pieceImages.put(WHITE_QUEEN, ImageIO.read(getClass().getResource("/images/crownwhite.png")));
+//
+//            pieceImages.put(BLACK_KING, ImageIO.read(getClass().getResource("/images/kingblack.png")));
+//            pieceImages.put(WHITE_KING, ImageIO.read(getClass().getResource("/images/kingwhite.png")));
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -88,17 +86,23 @@ public class BoardGenerator {
                 g.setStroke(new BasicStroke(1));
                 g.drawRect(j * SQUARE_WIDTH + offSetX, i * SQUARE_HEIGHT + offSetY, SQUARE_WIDTH, SQUARE_HEIGHT);
 
-                int piece = board[i][j];
-                if (piece !=0 && pieceImages.containsKey(piece)){
-                    g.drawImage(pieceImages.get(piece),
-                            j * SQUARE_WIDTH + offSetX,
-                            i * SQUARE_HEIGHT + offSetY,
-                            SQUARE_WIDTH, SQUARE_HEIGHT,
-                            null
-                            );
+                //  piece generating on board
+                Piece piece = board[i][j];
+                System.out.print(piece);
+                if(piece != null) {
+                    String pieceName = piece.getPieceName();
+                    if (pieceImages.containsKey(pieceName)) {
+                        g.drawImage(pieceImages.get(pieceName),
+                                j * SQUARE_WIDTH + offSetX,
+                                i * SQUARE_HEIGHT + offSetY,
+                                SQUARE_WIDTH, SQUARE_HEIGHT,
+                                null
+                        );
+                    }
                 }
 
             }
+            System.out.println();
         }
 
         // Draw labels for A-H (columns)
