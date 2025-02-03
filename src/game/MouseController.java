@@ -1,5 +1,7 @@
 package game;
 
+import game.piece.Piece;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -33,6 +35,17 @@ public class MouseController extends MouseAdapter {
         if(x > 40 && y > 40 && x < 520 && y < 520){
 
             message = "Clicked on row: " + row + ", col: " + col;
+
+            Piece piece = board.getPiece(row, col);
+
+            if(piece!=null){
+                message += "\nClicked on piece: " + piece.getPieceName();
+            }else {
+
+                message += "\nNo piece found";
+            }
+
+
         }else {
 
             message = "OutOfBounds!";

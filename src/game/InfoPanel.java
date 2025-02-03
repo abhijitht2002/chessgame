@@ -13,7 +13,7 @@ public class InfoPanel extends JPanel {
         setLayout(new BorderLayout());
 
         infoArea = new JTextArea(5, 30);
-        infoArea.setEditable(true);
+        infoArea.setEditable(false);
 
         // below are word wrappers and if it's there the textarea will automatically wrap or else a horizontal scrollbar automatically appears
 //        infoArea.setLineWrap(true);   // Enable word wrapping

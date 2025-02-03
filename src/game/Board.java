@@ -1,5 +1,7 @@
 package game;
 
+import game.piece.Piece;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,6 +25,12 @@ public class Board extends JPanel {
 
         super.paint(g);
         boardGenerator.drawBoard((Graphics2D) g);
+    }
+
+    public Piece getPiece(int row, int col){
+//        return boardGenerator;
+        // Expose the necessary functionality without exposing BoardGenerator
+        return boardGenerator.getPiece(row, col);
     }
 
 }
