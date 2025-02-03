@@ -1,5 +1,7 @@
 package game.piece;
 
+import java.util.List;
+
 public abstract class Piece {
 
     protected String color;
@@ -36,5 +38,11 @@ public abstract class Piece {
     public String getPieceName(){
         return color + "_" + type;
     }
+
+    //  This method validates if a particular move is possible for the piece.
+    public abstract boolean isValidMove(int newX, int newY);
+
+    //  This method should return a list of valid moves for a piece so using an array type instead of String is more practical
+    public abstract List<int[]> getValidMoves();
 
 }
