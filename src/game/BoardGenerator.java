@@ -67,8 +67,8 @@ public class BoardGenerator {
 
     public void drawBoard(Graphics2D g) {
 
-        int offSetX = 60;
-        int offSetY = 50;
+        int offSetX = 40;
+        int offSetY = 40;
 
 //        System.out.println(offSetX);
 
@@ -88,7 +88,8 @@ public class BoardGenerator {
 
                 //  piece generating on board
                 Piece piece = board[i][j];
-                System.out.print(piece);
+//                System.out.println(piece);
+                System.out.print(piece != null ? piece.getPieceName() + " " : "null ");
                 if(piece != null) {
                     String pieceName = piece.getPieceName();
                     if (pieceImages.containsKey(pieceName)) {

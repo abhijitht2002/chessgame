@@ -10,6 +10,7 @@ public class Game {
 
     private JFrame game_window;
     public Board board;
+    public InfoPanel infoPanel;
 
     public Game() {
         initializeUI();
@@ -23,13 +24,23 @@ public class Game {
         game_window.setLocationRelativeTo(null);
         game_window.setResizable(false);
 
-        game_window.setBackground(Color.BLACK);
+        game_window.setLayout(new BorderLayout());
 
         // adding board to the game window
-        board = new Board();
-        game_window.add(board);
+        board = new Board(this);
+        game_window.add(board, BorderLayout.CENTER);
+
+        //  adding infoPanel to the game window
+        infoPanel = new InfoPanel();
+        game_window.add(infoPanel, BorderLayout.EAST);
+
+
 
         // Show the window
         game_window.setVisible(true);
+    }
+
+    public void updateInfoPanel(String message){
+        infoPanel.updateInfo(message);
     }
 }
